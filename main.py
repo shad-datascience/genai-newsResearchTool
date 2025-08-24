@@ -43,8 +43,6 @@ if process_url_clicked:
             st.text("Data Loading...Started...")
             loader = UnstructuredURLLoader(urls=[url for url in urls if url.strip()])
             data = loader.load()
-            st.title("Debugging")
-            st.write(data)
             
             # Split data
             st.text("Text Splitting...Started...")
@@ -87,4 +85,5 @@ if st.session_state.processed:
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
         else:
+
             st.error("Index not found. Please process URLs again.")
