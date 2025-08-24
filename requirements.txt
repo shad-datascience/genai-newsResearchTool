@@ -1,0 +1,10 @@
+langchain
+streamlit
+unstructured
+langchain-community
+faiss-cpu
+tiktoken
+libmagic
+python-magi
+python-magic-bin
+langchain-google-genai
