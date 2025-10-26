@@ -32,7 +32,7 @@ process_url_clicked = st.sidebar.button("Process URLs")
 folder_path = "faiss_index"
 
 # Initialize models once to avoid re-loading on every run
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.7, google_api_key=GOOGLE_API_KEY)
+llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-pro", temperature=0.7, google_api_key=GOOGLE_API_KEY)
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 
 if process_url_clicked:
@@ -88,4 +88,5 @@ if st.session_state.processed:
         else:
 
             st.error("Index not found. Please process URLs again.")
+
 
