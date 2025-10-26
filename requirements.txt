@@ -1,4 +1,4 @@
-langchain
+langchain==0.3
 streamlit
 unstructured
 langchain-community
@@ -6,4 +6,5 @@ faiss-cpu
 tiktoken
 libmagic
 langchain-google-genai
+
 
