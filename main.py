@@ -2,14 +2,20 @@ import os
 import streamlit as st
 import time
 import asyncio
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import UnstructuredURLLoader
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.vectorstores import FAISS
+import os
+import asyncio
+import streamlit as st
 
-# Fix for RuntimeError
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+
+from langchain_classic.chains import RetrievalQAWithSourcesChain
+
+from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import UnstructuredURLLoader
+
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from langchain_core.documents import Document
 asyncio.set_event_loop(asyncio.new_event_loop())
 
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
@@ -18,7 +24,6 @@ st.markdown('This app is created by: <a href="https://shad-datascience.guthub.io
 st.title("News Research Tool 📈")
 st.sidebar.title("News Article URLs")
 
-# --- Solution Part 1: Initialize session state ---
 # This creates a "memory" for the app that persists across reruns.
 if 'processed' not in st.session_state:
     st.session_state.processed = False
@@ -32,9 +37,19 @@ process_url_clicked = st.sidebar.button("Process URLs")
 folder_path = "faiss_index"
 
 # Initialize models once to avoid re-loading on every run
-llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-pro", temperature=0.7, google_api_key=GOOGLE_API_KEY)
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 
+# 1. Using the ultra-fast Gemini 2.5 Flash
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash", 
+    temperature=0.7, 
+    google_api_key=GOOGLE_API_KEY
+)
+
+# 2. Using the confirmed stable embedding model from your list
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001", 
+    google_api_key=GOOGLE_API_KEY
+)
 if process_url_clicked:
     if not any(url.strip() for url in urls):
         st.sidebar.error("Please enter at least one URL.")
@@ -62,7 +77,6 @@ if process_url_clicked:
         # --- Solution Part 2: Set the flag to True ---
         st.session_state.processed = True
 
-# --- Solution Part 3: Use the flag to control the UI ---
 # Only show the question input if processing is done.
 if st.session_state.processed:
     query = st.text_input("Question: ")
