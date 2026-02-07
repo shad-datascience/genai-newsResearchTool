@@ -20,7 +20,7 @@ asyncio.set_event_loop(asyncio.new_event_loop())
 
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
-st.markdown('This app is created by: <a href="https://shad-datascience.guthub.io" target="_blank">Shad Jamil</a>', unsafe_allow_html=True)
+st.markdown('This app is created by: <a href="https://shad-datascience.github.io" target="_blank">Shad Jamil</a>', unsafe_allow_html=True)
 st.title("News Research Tool 📈")
 st.sidebar.title("News Article URLs")
 
@@ -102,5 +102,6 @@ if st.session_state.processed:
         else:
 
             st.error("Index not found. Please process URLs again.")
+
 
 
